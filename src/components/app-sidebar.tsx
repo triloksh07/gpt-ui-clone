@@ -167,12 +167,11 @@ export function AppSidebar() {
 
                 {/* PINNED */}
                 <SidebarGroup>
-                    {/* Icon Mode (Popover) */}
                     <SidebarMenu className="hidden group-data-[collapsible=icon]:flex">
                         <SidebarMenuItem>
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    <SidebarMenuButton tooltip="Pinned"><Pin className="size-4" /></SidebarMenuButton>
+                                    <SidebarMenuButton tooltip="Pinned" className="cursor-pointer"><Pin className="size-4" /></SidebarMenuButton>
                                 </PopoverTrigger>
                                 <PopoverContent side="right" align="start" className="p-0 border-none shadow-none bg-transparent">
                                     <FloatingList title="Pinned" items={data.pinned} />
@@ -181,21 +180,20 @@ export function AppSidebar() {
                         </SidebarMenuItem>
                     </SidebarMenu>
 
-                    {/* Expanded Mode (Collapsible) */}
                     <Collapsible defaultOpen className="group/collapsible group-data-[collapsible=icon]:hidden">
                         <CollapsibleTrigger asChild>
-                            <SidebarGroupLabel className="cursor-pointer hover:bg-accent hover:text-accent-foreground">
+                            <div className="flex w-full items-center justify-between px-2 py-1.5 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer">
                                 Pinned
-                                <ChevronDown className="ml-auto size-4 transition-transform group-data-[state=closed]/collapsible:-rotate-90" />
-                            </SidebarGroupLabel>
+                                <ChevronDown className="size-4 transition-transform group-data-[state=closed]/collapsible:-rotate-90" />
+                            </div>
                         </CollapsibleTrigger>
                         <CollapsibleContent>
                             <SidebarGroupContent>
                                 <SidebarMenu>
                                     {data.pinned.map((item) => (
                                         <SidebarMenuItem key={item.id}>
-                                            <SidebarMenuButton><span>{item.title}</span></SidebarMenuButton>
-                                            <SidebarMenuAction showOnHover><MoreHorizontal className="size-4" /></SidebarMenuAction>
+                                            <SidebarMenuButton className="cursor-pointer"><span>{item.title}</span></SidebarMenuButton>
+                                            <SidebarMenuAction showOnHover className="cursor-pointer"><MoreHorizontal className="size-4" /></SidebarMenuAction>
                                         </SidebarMenuItem>
                                     ))}
                                 </SidebarMenu>
@@ -204,23 +202,24 @@ export function AppSidebar() {
                     </Collapsible>
                 </SidebarGroup>
 
-                {/* PROJECTS - Hidden entirely when collapsed */}
+                {/* PROJECTS */}
                 <SidebarGroup className="group-data-[collapsible=icon]:hidden">
                     <Collapsible defaultOpen className="group/collapsible">
-                        <CollapsibleTrigger asChild>
-                            <SidebarGroupLabel className="cursor-pointer hover:bg-accent hover:text-accent-foreground">
+                        <div className="flex items-center justify-between px-2 py-1 rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground cursor-pointer">
+                            <CollapsibleTrigger className="flex flex-1 items-center text-xs font-medium py-0.5 outline-none">
                                 Projects
                                 <ChevronDown className="ml-auto size-4 transition-transform group-data-[state=closed]/collapsible:-rotate-90" />
-                            </SidebarGroupLabel>
-                        </CollapsibleTrigger>
-                        <SidebarGroupAction title="Add Project"><Plus className="size-4" /></SidebarGroupAction>
+                            </CollapsibleTrigger>
+                            <button className="hidden ml-1 p-0.5 rounded-sm hover:bg-background/80 outline-none"><Plus className="size-4" /></button>
+                        </div>
+
                         <CollapsibleContent>
                             <SidebarGroupContent>
                                 <SidebarMenu>
                                     {data.projects.map((item) => (
                                         <SidebarMenuItem key={item.id}>
-                                            <SidebarMenuButton><FolderOpen className="size-4" /><span>{item.title}</span></SidebarMenuButton>
-                                            <SidebarMenuAction showOnHover><MoreHorizontal className="size-4" /></SidebarMenuAction>
+                                            <SidebarMenuButton className="cursor-pointer"><FolderOpen className="size-4" /><span>{item.title}</span></SidebarMenuButton>
+                                            <SidebarMenuAction showOnHover className="cursor-pointer"><MoreHorizontal className="size-4" /></SidebarMenuAction>
                                         </SidebarMenuItem>
                                     ))}
                                 </SidebarMenu>
@@ -231,12 +230,11 @@ export function AppSidebar() {
 
                 {/* CHATS */}
                 <SidebarGroup>
-                    {/* Icon Mode (Popover) */}
                     <SidebarMenu className="hidden group-data-[collapsible=icon]:flex">
                         <SidebarMenuItem>
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    <SidebarMenuButton tooltip="Chats"><MessageSquare className="size-4" /></SidebarMenuButton>
+                                    <SidebarMenuButton tooltip="Chats" className="cursor-pointer"><MessageSquare className="size-4" /></SidebarMenuButton>
                                 </PopoverTrigger>
                                 <PopoverContent side="right" align="start" className="p-0 border-none shadow-none bg-transparent">
                                     <FloatingList title="Chats" items={data.chats} />
@@ -245,21 +243,20 @@ export function AppSidebar() {
                         </SidebarMenuItem>
                     </SidebarMenu>
 
-                    {/* Expanded Mode (Collapsible) */}
                     <Collapsible defaultOpen className="group/collapsible group-data-[collapsible=icon]:hidden">
                         <CollapsibleTrigger asChild>
-                            <SidebarGroupLabel className="cursor-pointer hover:bg-accent hover:text-accent-foreground">
+                            <div className="flex w-full items-center justify-between px-2 py-1.5 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer">
                                 Chats
-                                <ChevronDown className="ml-auto size-4 transition-transform group-data-[state=closed]/collapsible:-rotate-90" />
-                            </SidebarGroupLabel>
+                                <ChevronDown className="size-4 transition-transform group-data-[state=closed]/collapsible:-rotate-90" />
+                            </div>
                         </CollapsibleTrigger>
                         <CollapsibleContent>
                             <SidebarGroupContent>
                                 <SidebarMenu>
                                     {data.chats.map((item) => (
                                         <SidebarMenuItem key={item.id}>
-                                            <SidebarMenuButton><span>{item.title}</span></SidebarMenuButton>
-                                            <SidebarMenuAction showOnHover><MoreHorizontal className="size-4" /></SidebarMenuAction>
+                                            <SidebarMenuButton className="cursor-pointer"><span>{item.title}</span></SidebarMenuButton>
+                                            <SidebarMenuAction showOnHover className="cursor-pointer"><MoreHorizontal className="size-4" /></SidebarMenuAction>
                                         </SidebarMenuItem>
                                     ))}
                                 </SidebarMenu>
@@ -267,7 +264,10 @@ export function AppSidebar() {
                         </CollapsibleContent>
                     </Collapsible>
                 </SidebarGroup>
+
+
             </SidebarContent>
+
 
             {/* FOOTER */}
             <SidebarFooter>

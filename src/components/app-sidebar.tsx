@@ -104,28 +104,15 @@ export function AppSidebar() {
         <Sidebar variant="sidebar" collapsible="icon">
             {/* HEADER */}
             <SidebarHeader className="gap-2 p-2">
-                <div className="flex items-center justify-between pb-2">
-                    <div className="flex items-center gap-2 overflow-hidden px-2">
-                        <Sparkles className="size-4 shrink-0 group-data-[collapsible=icon]:hidden group-data-[collapsible=icon]:translate-x-25" />
+
+                <div className="flex h-8 items-center justify-between group-data-[collapsible=icon]:justify-center">
+                    <div className="flex items-center gap-2 px-2 overflow-hidden group-data-[collapsible=icon]:hidden">
+                        <Sparkles className="size-4 shrink-0 text-foreground" />
                         {/* <img width={5} height={5} src="/project-new/gpt-ui/gpt-ui/src/assets/chat-gpt.png" /> */}
+                        {/* <span className="font-medium">ChatGPT</span> */}
                     </div>
-                    <SidebarTrigger />
+                    <SidebarTrigger className="group-data-[collapsible=icon]:ml-0" />
                 </div>
-
-                {/* <div className="flex items-center justify-center pb-2">
-                    <div className="flex items-center justify-center w-full px-2">
-                        <img
-                            src="..//assets/chat-gpt.png"
-                            alt="ChatGPT Logo"
-                            className="h-6 w-6 object-contain"
-                        />
-                        <span className="ml-2 font-medium group-data-[collapsible=icon]:hidden">
-                            ChatGPT
-                        </span>
-                    </div>
-                    <SidebarTrigger />
-                </div> */}
-
 
                 <SidebarMenu>
                     <SidebarMenuItem>

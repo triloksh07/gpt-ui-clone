@@ -117,155 +117,169 @@ export function ChatInterface() {
         }
     }
 
-    // The shared input component (used centered in empty state, and at bottom in active chat)
     const renderInputArea = () => (
         <div className="w-full max-w-3xl mx-auto flex flex-col gap-2">
 
-            {/* File Preview Track */}
-            {selectedFiles.length > 0 && (
-                <div className="flex flex-wrap gap-2 px-2 pb-2">
-                    {selectedFiles.map((file, i) => (
-                        <div key={i} className="group relative flex items-center gap-2 rounded-xl bg-secondary px-3 py-2 text-sm shadow-sm">
-                            <div className="rounded bg-primary/10 p-1 text-primary"><Paperclip className="size-4" /></div>
-                            <span className="max-w-[120px] truncate font-medium">{file.name}</span>
-                            <button
-                                onClick={() => removeFile(i)}
-                                className="absolute -right-2 -top-2 rounded-full bg-muted-foreground p-1 text-background opacity-0 transition-opacity group-hover:opacity-100"
+            {/* MAIN INPUT CONTAINER */}
+            <div className="relative flex flex-col w-full rounded-[26px] bg-secondary pt-3 pb-2 px-3 focus-within:ring-1 focus-within:ring-ring shadow-sm">
+
+
+                {/* ROW 2: Main Input Bar (Plus icon, Textarea, Send button) */}
+                <div className="flex items-end gap-2 w-full min-h-[40px]">
+
+                    {/* Left side: Plus button */}
+                    <div className="flex items-center pb-1">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon" className="size-8 shrink-0 rounded-full text-muted-foreground hover:bg-background/50 hover:text-foreground">
+                                    <Plus className="size-5" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start" className="w-56 rounded-xl p-1.5 shadow-xl">
+                                <DropdownMenuItem onClick={triggerFileSelect} className="gap-3 cursor-pointer py-2">
+                                    <Paperclip className="size-4" /> Add photos & files
+                                </DropdownMenuItem>
+                                <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger className="gap-3 cursor-pointer py-2">
+                                        <FileText className="size-4" /> Recent files
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuPortal>
+                                        <DropdownMenuSubContent className="w-48 p-1">
+                                            <DropdownMenuItem disabled>No recent files</DropdownMenuItem>
+                                        </DropdownMenuSubContent>
+                                    </DropdownMenuPortal>
+                                </DropdownMenuSub>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem onClick={() => setMode("image")} className="gap-3 cursor-pointer py-2">
+                                    <ImageIcon className="size-4" /> Create image
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => setMode("think")} className="gap-3 cursor-pointer py-2">
+                                    <Lightbulb className="size-4" /> Thinking
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => setMode("research")} className="gap-3 cursor-pointer py-2">
+                                    <Telescope className="size-4" /> Deep research
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => setMode("default")} className="gap-3 cursor-pointer py-2">
+                                    <Globe className="size-4" /> Web search
+                                </DropdownMenuItem>
+                                <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger className="gap-3 cursor-pointer py-2">
+                                        <MoreHorizontal className="size-4" /> More
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuPortal>
+                                        <DropdownMenuSubContent className="w-48 p-1">
+                                            <DropdownMenuItem className="gap-3"><PenLine className="size-4" /> Write</DropdownMenuItem>
+                                        </DropdownMenuSubContent>
+                                    </DropdownMenuPortal>
+                                </DropdownMenuSub>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger className="gap-3 cursor-pointer py-2">
+                                        <Folder className="size-4" /> Projects
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuPortal>
+                                        <DropdownMenuSubContent className="w-48 p-1">
+                                            <DropdownMenuItem className="gap-3"><PenLine className="size-4" /> Writing</DropdownMenuItem>
+                                            <DropdownMenuItem className="gap-3"><Folder className="size-4" /> DeepSession-v2</DropdownMenuItem>
+                                        </DropdownMenuSubContent>
+                                    </DropdownMenuPortal>
+                                </DropdownMenuSub>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+
+                    {/* Hidden File Input */}
+                    <input
+                        type="file"
+                        multiple
+                        ref={fileInputRef}
+                        className="hidden"
+                        onChange={handleFileChange}
+                    />
+
+                    {/* Textarea */}
+                    <textarea
+                        ref={textareaRef}
+                        rows={1}
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder={getPlaceholder()}
+                        className="max-h-[200px] min-h-[32px] flex-1 resize-none bg-transparent py-1.5 text-[15px] outline-none placeholder:text-muted-foreground/70"
+                    />
+
+                    {/* Right side: Mic, Audio, Submit */}
+                    <div className="flex items-center gap-1.5 pb-1 pr-1">
+                        {input || selectedFiles.length > 0 ? (
+                            <Button
+                                onClick={handleSendMessage}
+                                size="icon"
+                                className="size-8 rounded-full bg-foreground text-background hover:bg-foreground/80 shrink-0"
                             >
-                                <X className="size-3" />
-                            </button>
-                        </div>
-                    ))}
-                </div>
-            )}
-
-            {/* Main Input Bar */}
-            <div className="relative flex min-h-[56px] w-full items-end gap-2 rounded-[26px] bg-secondary px-2 pb-2 pt-2 focus-within:ring-1 focus-within:ring-ring">
-
-                {/* Left side: Plus button & Mode Pills */}
-                <div className="flex items-center gap-1 pb-1 pl-1">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" className="size-8 shrink-0 rounded-full text-muted-foreground hover:bg-background/50 hover:text-foreground">
-                                <Plus className="size-5" />
+                                <ArrowUp className="size-5" />
                             </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="start" className="w-56 rounded-xl p-1.5 shadow-xl">
-                            <DropdownMenuItem onClick={triggerFileSelect} className="gap-3 cursor-pointer py-2">
-                                <Paperclip className="size-4" /> Add photos & files
-                            </DropdownMenuItem>
-                            <DropdownMenuSub>
-                                <DropdownMenuSubTrigger className="gap-3 cursor-pointer py-2">
-                                    <FileText className="size-4" /> Recent files
-                                </DropdownMenuSubTrigger>
-                                <DropdownMenuPortal>
-                                    <DropdownMenuSubContent className="w-48 p-1">
-                                        <DropdownMenuItem disabled>No recent files</DropdownMenuItem>
-                                    </DropdownMenuSubContent>
-                                </DropdownMenuPortal>
-                            </DropdownMenuSub>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => setMode("image")} className="gap-3 cursor-pointer py-2">
-                                <ImageIcon className="size-4" /> Create image
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setMode("think")} className="gap-3 cursor-pointer py-2">
-                                <Lightbulb className="size-4" /> Thinking
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setMode("research")} className="gap-3 cursor-pointer py-2">
+                        ) : (
+                            <>
+                                <Button variant="ghost" size="icon" className="size-8 rounded-full text-muted-foreground hover:text-foreground shrink-0">
+                                    <Mic className="size-5" />
+                                </Button>
+                                <Button variant="default" size="icon" className="size-8 rounded-full bg-[#1778ff] text-white hover:bg-[#1778ff]/90 shrink-0">
+                                    <AudioLines className="size-4" />
+                                </Button>
+                            </>
+                        )}
+                    </div>
+                </div>
+
+                {/* ROW 1: Files and Pills (Renders above the text area) */}
+                {(selectedFiles.length > 0 || mode !== "default") && (
+                    <div className="flex flex-wrap items-center gap-2 px-1 pb-2">
+
+                        {mode === "think" && (
+                            <div className="flex h-8 items-center gap-1.5 rounded-full bg-blue-500/10 pl-3 pr-1.5 text-sm font-medium text-blue-500">
+                                <Lightbulb className="size-4" /> Think
+                                <button onClick={() => setMode("default")} className="rounded-full p-1 hover:bg-blue-500/20 text-blue-500 transition-colors">
+                                    <X className="size-3" />
+                                </button>
+                            </div>
+                        )}
+                        {mode === "research" && (
+                            <div className="flex h-8 items-center gap-1.5 rounded-full bg-blue-500/10 pl-3 pr-1.5 text-sm font-medium text-blue-500">
                                 <Telescope className="size-4" /> Deep research
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setMode("default")} className="gap-3 cursor-pointer py-2">
-                                <Globe className="size-4" /> Web search
-                            </DropdownMenuItem>
-                            <DropdownMenuSub>
-                                <DropdownMenuSubTrigger className="gap-3 cursor-pointer py-2">
-                                    <MoreHorizontal className="size-4" /> More
-                                </DropdownMenuSubTrigger>
-                                <DropdownMenuPortal>
-                                    <DropdownMenuSubContent className="w-48 p-1">
-                                        <DropdownMenuItem className="gap-3"><PenLine className="size-4" /> Write</DropdownMenuItem>
-                                    </DropdownMenuSubContent>
-                                </DropdownMenuPortal>
-                            </DropdownMenuSub>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuSub>
-                                <DropdownMenuSubTrigger className="gap-3 cursor-pointer py-2">
-                                    <Folder className="size-4" /> Projects
-                                </DropdownMenuSubTrigger>
-                                <DropdownMenuPortal>
-                                    <DropdownMenuSubContent className="w-48 p-1">
-                                        <DropdownMenuItem className="gap-3"><PenLine className="size-4" /> Writing</DropdownMenuItem>
-                                        <DropdownMenuItem className="gap-3"><Folder className="size-4" /> DeepSession-v2</DropdownMenuItem>
-                                    </DropdownMenuSubContent>
-                                </DropdownMenuPortal>
-                            </DropdownMenuSub>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                                <div className="mx-1 h-3 w-px bg-blue-500/30" />
+                                <span className="flex items-center gap-1 text-foreground/70"><LayoutGrid className="size-3.5" /> Apps <ChevronDown className="size-3" /></span>
+                                <span className="flex items-center gap-1 text-foreground/70"><Globe2 className="size-3.5" /> Sites <ChevronDown className="size-3" /></span>
+                                <button onClick={() => setMode("default")} className="ml-1 rounded-full p-1 hover:bg-blue-500/20 text-blue-500 transition-colors">
+                                    <X className="size-3" />
+                                </button>
+                            </div>
+                        )}
+                        {mode === "image" && (
+                            <div className="flex h-8 items-center gap-1.5 rounded-full bg-blue-500/10 pl-3 pr-1.5 text-sm font-medium text-blue-500">
+                                <ImageIcon className="size-4" /> Image
+                                <div className="mx-1 h-3 w-px bg-blue-500/30" />
+                                <span className="flex items-center gap-1 text-foreground/70">Auto <ChevronDown className="size-3" /></span>
+                                <button onClick={() => setMode("default")} className="ml-1 rounded-full p-1 hover:bg-blue-500/20 text-blue-500 transition-colors">
+                                    <X className="size-3" />
+                                </button>
+                            </div>
+                        )}
 
-                    {/* Active Mode Tag Pills */}
-                    {mode === "think" && (
-                        <div className="flex h-8 items-center gap-1.5 rounded-full bg-blue-500/10 px-3 text-sm font-medium text-blue-500">
-                            <Lightbulb className="size-4" /> Think
-                        </div>
-                    )}
-                    {mode === "research" && (
-                        <div className="flex h-8 items-center gap-1.5 rounded-full bg-blue-500/10 px-3 text-sm font-medium text-blue-500">
-                            <Telescope className="size-4" /> Deep research
-                            <div className="mx-1 h-3 w-px bg-blue-500/30" />
-                            <span className="flex items-center gap-1 text-foreground/70"><LayoutGrid className="size-3.5" /> Apps <ChevronDown className="size-3" /></span>
-                            <span className="flex items-center gap-1 text-foreground/70"><Globe2 className="size-3.5" /> Sites <ChevronDown className="size-3" /></span>
-                        </div>
-                    )}
-                    {mode === "image" && (
-                        <div className="flex h-8 items-center gap-1.5 rounded-full bg-blue-500/10 px-3 text-sm font-medium text-blue-500">
-                            <ImageIcon className="size-4" /> Image
-                            <div className="mx-1 h-3 w-px bg-blue-500/30" />
-                            <span className="flex items-center gap-1 text-foreground/70">Auto <ChevronDown className="size-3" /></span>
-                        </div>
-                    )}
-                </div>
+                        {selectedFiles.map((file, i) => (
+                            <div key={i} className="group relative flex h-8 items-center gap-2 rounded-xl bg-background px-3 py-1 text-sm shadow-sm border border-border/50">
+                                <div className="text-primary"><Paperclip className="size-3.5" /></div>
+                                <span className="max-w-[120px] truncate font-medium">{file.name}</span>
+                                <button
+                                    onClick={() => removeFile(i)}
+                                    className="ml-1 rounded-full p-1 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                    <X className="size-3" />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )}
 
-                {/* Hidden File Input */}
-                <input
-                    type="file"
-                    multiple
-                    ref={fileInputRef}
-                    className="hidden"
-                    onChange={handleFileChange}
-                />
-
-                {/* Textarea */}
-                <textarea
-                    ref={textareaRef}
-                    rows={1}
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder={getPlaceholder()}
-                    className="max-h-[200px] min-h-[40px] flex-1 resize-none bg-transparent py-2.5 text-[15px] outline-none placeholder:text-muted-foreground/70"
-                />
-
-                {/* Right side: Mic, Audio, Submit */}
-                <div className="flex items-center gap-1.5 pb-1 pr-1">
-                    {input || selectedFiles.length > 0 ? (
-                        <Button
-                            onClick={handleSendMessage}
-                            size="icon"
-                            className="size-8 rounded-full bg-foreground text-background hover:bg-foreground/80 shrink-0"
-                        >
-                            <ArrowUp className="size-5" />
-                        </Button>
-                    ) : (
-                        <>
-                            <Button variant="ghost" size="icon" className="size-8 rounded-full text-muted-foreground hover:text-foreground shrink-0">
-                                <Mic className="size-5" />
-                            </Button>
-                            <Button variant="default" size="icon" className="size-8 rounded-full bg-[#1778ff] text-white hover:bg-[#1778ff]/90 shrink-0">
-                                <AudioLines className="size-4" />
-                            </Button>
-                        </>
-                    )}
-                </div>
             </div>
 
             <div className="text-center text-xs text-muted-foreground mt-1">
@@ -373,8 +387,8 @@ export function ChatInterface() {
                                 {messages.map((msg) => (
                                     <div key={msg.id} className={`flex gap-4 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                                         <div className={`rounded-2xl px-4 py-2.5 text-[15px] ${msg.role === "user"
-                                                ? "bg-secondary text-foreground max-w-[80%]"
-                                                : "bg-transparent text-foreground max-w-[100%]"
+                                            ? "bg-secondary text-foreground max-w-[80%]"
+                                            : "bg-transparent text-foreground max-w-[100%]"
                                             }`}>
                                             <p className="whitespace-pre-wrap leading-relaxed">{msg.content}</p>
                                         </div>

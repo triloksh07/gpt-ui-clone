@@ -8,11 +8,9 @@ export function App() {
   return (
     <TooltipProvider delayDuration={0}>
       <SidebarProvider>
-        <div className="flex min-h-svh p-6">
-
+        <div className="flex h-screen w-full bg-background overflow-hidden">
           <AppSidebar />
-
-          <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+          <main className="flex-1 flex flex-col min-w-0 relative">
             <ChatInterface />
           </main>
         </div>

@@ -39,6 +39,7 @@ import {
     Code2,
     MoreHorizontal,
     Plus,
+    Edit,
     Pin,
     MessageSquare,
     FolderOpen,
@@ -106,9 +107,9 @@ export function AppSidebar() {
                 <div className="flex items-center justify-between pb-2">
                     <div className="flex items-center gap-2 overflow-hidden px-2">
                         <Sparkles className="size-4 shrink-0 group-data-[collapsible=icon]:hidden group-data-[collapsible=icon]:translate-x-25" />
-                        <img width={5} height={5} src="/project-new/gpt-ui/gpt-ui/src/assets/chat-gpt.png" />
+                        {/* <img width={5} height={5} src="/project-new/gpt-ui/gpt-ui/src/assets/chat-gpt.png" /> */}
                     </div>
-                    <SidebarTrigger className="" />
+                    <SidebarTrigger />
                 </div>
 
                 {/* <div className="flex items-center justify-center pb-2">
@@ -129,7 +130,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton tooltip="New chat">
-                            <Plus className="size-4" />
+                            <Edit className="size-4" />
                             <span>New chat</span>
                         </SidebarMenuButton>
                     </SidebarMenuItem>

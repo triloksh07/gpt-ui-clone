@@ -206,9 +206,9 @@ export function AppSidebar() {
                 <SidebarGroup className="group-data-[collapsible=icon]:hidden">
                     <Collapsible defaultOpen className="group/collapsible">
                         <div className="flex items-center justify-between px-2 py-1 rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground cursor-pointer">
-                            <CollapsibleTrigger className="flex flex-1 items-center text-xs font-medium py-0.5 outline-none">
+                            <CollapsibleTrigger className="flex flex-1 items-center text-xs font-medium py-0.5 outline-none cursor-pointer">
                                 Projects
-                                <ChevronDown className="ml-auto size-4 transition-transform group-data-[state=closed]/collapsible:-rotate-90" />
+                                <ChevronDown className="cursor-pointer ml-auto size-4 transition-transform group-data-[state=closed]/collapsible:-rotate-90" />
                             </CollapsibleTrigger>
                             <button className="hidden ml-1 p-0.5 rounded-sm hover:bg-background/80 outline-none"><Plus className="size-4" /></button>
                         </div>

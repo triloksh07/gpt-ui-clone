@@ -8,9 +8,9 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
     SidebarGroup,
-    SidebarGroupAction,
+    // SidebarGroupAction,
     SidebarGroupContent,
-    SidebarGroupLabel,
+    // SidebarGroupLabel,
     SidebarTrigger,
     SidebarMenuAction,
 } from "@/components/ui/sidebar"
